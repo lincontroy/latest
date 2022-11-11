@@ -15,7 +15,30 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::post('/register', [\App\Http\Controllers\AuthController::class, 'createUser']);
+
 Route::post('/login', [\App\Http\Controllers\AuthController::class, 'loginUser']);
+
+
+Route::group(['middleware' => 'auth:sanctum'], function()
+{
+
+    Route::post('/createpost', [\App\Http\Controllers\PostsController::class, 'store']);
+
+    Route::post('/updatepost/{id}', [\App\Http\Controllers\PostsController::class, 'update']);
+
+    Route::post('/comment', [\App\Http\Controllers\CommentsController::class, 'store']);
+
+
+
+
+
+    Route::get('/user',function (Request $request) {    
+    return $request->user();    
+});
+
+
+});
+
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
